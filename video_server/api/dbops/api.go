@@ -69,7 +69,7 @@ func AddNewVideo(aid int, name string) (*defs.VideoInfo, error) {
 	}
 
 	t := time.Now()
-	ctime := t.Format("Jan 02 2006, 15:04:05") // M D Y HH:MM:SS  这个格式是固定的. 时间格式化就是这个固定的 Jan 02 2006, 15:04:05
+	ctime := t.Format("Jan 02 2006 15:04:05") // M D Y HH:MM:SS  这个格式是固定的. 时间格式化就是这个固定的 Jan 02 2006, 15:04:05
 
 	stmtIns, err := dbConn.Prepare(`INSERT INTO video_info 
 		(id, author_id, name,display_ctime) VALUES(?,?,?,?)`)
@@ -153,10 +153,11 @@ func AddNewComments(vid string, aid int, content string) error {
 // 显示所有的评论.
 func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 	stmtOut, err := dbConn.Prepare(`SELECT comments.id, users.login_name, comments.content FROM comments
-	INNER JOIN users On comments.author_id == users.id WHERE comments.video_id = ? AND comments.time > FROM_UNITIME(?) AND comments.time <= FROM_UNITIME(?)`)
+	INNER JOIN users ON comments.author_id == users.id
+	WHERE comments.video_id = ? AND comments.time > FROM_UNIXTIME(?) AND comments.time <= FROM_UNIXTIME(?)`)
 
 	var res []*defs.Comment
-	rows, err := dbConn.Query(vid, from, to)
+	rows, err := stmtOut.Query(vid, from, to)
 	if err != nil {
 		fmt.Printf("ListComments() dbConn.Query() failded err = %v\n", err)
 		return nil, err
