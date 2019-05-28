@@ -23,7 +23,7 @@ var (
 		HttpSC: 401,
 		Error: Err{
 			Error:     "User authentication failed.",
-			ErrorCode: "002"
+			ErrorCode: "002",
 		},
 	}
 )
