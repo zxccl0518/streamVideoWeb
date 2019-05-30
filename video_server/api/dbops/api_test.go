@@ -73,7 +73,7 @@ func testRegetUser(t *testing.T) {
 	// 这里的结果 pwd 是空的字符串. "", 因为去 获取已经删除的一个用户, 是无效的, 返回的是一个空串.
 }
 
-func TestVideoInfoWordFlow(t *testing.T) {
+func testVideoInfoWordFlow(t *testing.T) {
 	t.Run("PrepareUser", testAddUser)
 	t.Run("AddVideo", testAddVideoInfo)
 	t.Run("GetVideo", testGetVideoInfo)
@@ -143,6 +143,7 @@ func testListComments(t *testing.T) {
 	commentList, err := ListComments(vid, from, to)
 	if err != nil {
 		t.Errorf("Error of ListComments err = %v", err)
+		return
 	}
 	for i, ele := range commentList {
 		fmt.Printf("commnet := %d, %v\n", i, ele)

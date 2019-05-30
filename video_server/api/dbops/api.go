@@ -151,6 +151,7 @@ func AddNewComments(vid string, aid int, content string) error {
 }
 
 // 显示所有的评论.
+// 这个接口 ,现在不太好用. test会有问题.
 func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 	stmtOut, err := dbConn.Prepare(`SELECT comments.id, users.login_name, comments.content FROM comments
 	INNER JOIN users ON comments.author_id == users.id
